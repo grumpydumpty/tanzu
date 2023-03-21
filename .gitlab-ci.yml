@@ -1,0 +1,28 @@
+variables:
+  SYDENG_HARBOR: "harbor.sydeng.vmware.com"
+
+build:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  before_script:
+    # - ls /etc/sydney_build
+    # - ls /etc/sydney_build/docker
+    # - ls /etc/sydney_build/sydeng_cert
+    # - cat /etc/sydney_build/docker/config.json; echo;
+    # - cat /etc/sydney_build/sydeng_cert/sydeng.vmware.com.crt; echo;
+    - cp "/etc/sydney_build/sydeng_cert/sydeng.vmware.com.crt" /kaniko/ssl/certs/sydeng.vmware.com.crt
+    - cp /etc/sydney_build/docker/config.json /kaniko/.docker/config.json
+  variables:
+    IMAGE_NAME: "tanzu"
+    IMAGE_TAG: "dev"
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --cache
+      --cache-copy-layers
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "${SYDENG_HARBOR}/rcroft/${IMAGE_NAME}:${IMAGE_TAG}"
+      # --destination "${SYDENG_HARBOR}/rcroft/${IMAGE_NAME}:latest"
+
