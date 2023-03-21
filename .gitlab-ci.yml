@@ -23,6 +23,6 @@ build:
       --cache
       --cache-copy-layers
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-      --destination "${SYDENG_HARBOR}/rcroft/${IMAGE_NAME}:${IMAGE_TAG}"
-      # --destination "${SYDENG_HARBOR}/rcroft/${IMAGE_NAME}:latest"
+      --destination "${SYDENG_HARBOR}/library/${IMAGE_NAME}:${IMAGE_TAG}"
+      # --destination "${SYDENG_HARBOR}/library/${IMAGE_NAME}:latest"
 
