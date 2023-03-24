@@ -1,19 +1,14 @@
-variables:
-  SYDENG_HARBOR: "harbor.sydeng.vmware.com"
-
 build:
   stage: build
   image:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
     entrypoint: [""]
   before_script:
-    # - ls /etc/sydney_build
-    # - ls /etc/sydney_build/docker
-    # - ls /etc/sydney_build/sydeng_cert
-    # - cat /etc/sydney_build/docker/config.json; echo;
-    # - cat /etc/sydney_build/sydeng_cert/sydeng.vmware.com.crt; echo;
-    - cp "/etc/sydney_build/sydeng_cert/sydeng.vmware.com.crt" /kaniko/ssl/certs/sydeng.vmware.com.crt
-    - cp /etc/sydney_build/docker/config.json /kaniko/.docker/config.json
+    # add harbor cert to kaniko
+    - echo -e ${HARBOR_CERT} >> /kaniko/ssl/certs/sydeng.vmware.com.crt
+    # add harbor auth to docker
+    - AUTH=$(printf "%s:%s" ${HARBOR_USER} ${HARBOR_PASSWORD} | base64 | tr -d '\n')
+    - echo "{\"auths\":{\"${HARBOR_HOST}\":{\"username\":\"${HARBOR_USER}\",\"password\":\"${HARBOR_PASSWORD}\",\"email\":\"${HARBOR_EMAIL}\",\"auth\":\"${AUTH}\"}}}" > /kaniko/.docker/config.json
   variables:
     IMAGE_NAME: "tanzu"
     IMAGE_TAG: "dev"
@@ -23,6 +18,5 @@ build:
       --cache
       --cache-copy-layers
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-      --destination "${SYDENG_HARBOR}/library/${IMAGE_NAME}:${IMAGE_TAG}"
-      # --destination "${SYDENG_HARBOR}/library/${IMAGE_NAME}:latest"
-
+      --destination "${HARBOR_HOST}/library/${IMAGE_NAME}:${IMAGE_TAG}"
+      # --destination "${HARBOR_HOST}/library/${IMAGE_NAME}:latest"
