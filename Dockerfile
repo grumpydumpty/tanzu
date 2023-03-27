@@ -6,7 +6,7 @@ ARG LABEL_PREFIX=com.vmware.eocto
 
 # add metadata via labels
 LABEL ${LABEL_PREFIX}.version="0.0.1"
-LABEL ${LABEL_PREFIX}.git.repo="git@gitlab.eng.vmware.com:sydney/commonpool.git"
+LABEL ${LABEL_PREFIX}.git.repo="git@gitlab.eng.vmware.com:sydney/containers/tanzu.git"
 LABEL ${LABEL_PREFIX}.git.commit="DEADBEEF"
 LABEL ${LABEL_PREFIX}.maintainer.name="Richard Croft"
 LABEL ${LABEL_PREFIX}.maintainer.email="rcroft@vmware.com"

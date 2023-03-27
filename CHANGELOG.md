@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## [v0.0.1](https://github.com/tenthrtyam/powerclicore/releases/tag/v0.0.1)
+## [v0.0.1](https://gitlab.eng.vmware.com/sydney/containers/tanzu/releases/tag/v0.0.1)
 
 > Release Date: 2023/03/16
 
