@@ -20,14 +20,22 @@ WORKDIR /root
 # update repositories, install packages, and then clean up
 RUN tdnf update -y && \
     tdnf install -y jq ncurses unzip && \
+    # grab vsphere kubectl plugins
     curl -skSLo vsphere-plugin.zip https://${TANZU}/wcp/plugin/linux-amd64/vsphere-plugin.zip && \
     unzip -d /usr/local vsphere-plugin.zip && \
     rm -f vsphere-plugin.zip && \
+    # grab helm
+    curl -skSL https://get.helm.sh/helm-v3.11.2-linux-amd64.tar.gz -o helm-v3.11.2-linux-amd64.tar.gz && \
+    tar xzf helm-v3.11.2-linux-amd64.tar.gz linux-amd64/helm && \
+    mv linux-amd64/helm /usr/local/bin/ && \
+    rm -rf helm-v3.11.2-linux-amd64.tar.gz linux-amd64 && \
+    # grab kubectx/kubens
     curl -o kubens https://raw.githubusercontent.com/ahmetb/kubectx/master/kubens && \
     curl -o kubectx https://raw.githubusercontent.com/ahmetb/kubectx/master/kubectx && \
     mv kubens kubectx /usr/local/bin && \
     chmod 0755 /usr/local/bin/kubectx && \
     chmod 0755 /usr/local/bin/kubens && \
+    # clean up
     tdnf erase -y unzip && \
     tdnf clean all
 
