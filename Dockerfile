@@ -26,11 +26,11 @@ RUN tdnf update -y && \
     # grab what we can via standard packages
     tdnf install -y ca-certificates curl diffutils git jq ncurses shadow tar unzip && \
     # add user/group
-    useradd -u ${USER_ID} -m ${USER} && \
-    chown -R ${USER_ID}:${GROUP_ID} /home/${USER} && \
+    useradd -u ${USER_ID} -g ${GROUP} -m ${USER} && \
+    chown -R ${USER}:${GROUP} /home/${USER} && \
     # add /workspace and give user permissions
     mkdir -p /workspace && \
-    chown -R ${USER_ID}:${GROUP_ID} /workspace && \
+    chown -R ${USER}:${GROUP} /workspace && \
     # set git config
     echo -e "[safe]\n\tdirectory=/workspace" > /etc/gitconfig && \
     # grab kubectl vsphere plugins
