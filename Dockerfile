@@ -30,7 +30,7 @@ RUN tdnf update -y && \
     chown -R ${USER}:${GROUP} /home/${USER} && \
     # add /workspace and give user permissions
     mkdir -p /workspace && \
-    chown -R ${USER}:${GROUP} /workspace && \
+    chown -R ${USER_ID}:${GROUP_ID} /workspace && \
     # set git config
     echo -e "[safe]\n\tdirectory=/workspace" > /etc/gitconfig && \
     # grab kubectl vsphere plugins
