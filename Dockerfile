@@ -2,7 +2,7 @@ FROM photon:5.0
 
 # set argument defaults
 ARG OS_ARCH="amd64"
-ARG HELM_VERSION="3.11.2"
+ARG HELM_VERSION="3.13.2"
 ARG TANZU=10.109.195.161
 ARG USER=vlabs
 ARG USER_ID=1280
