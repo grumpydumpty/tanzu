@@ -2,7 +2,7 @@ FROM photon:5.0
 
 # set argument defaults
 ARG OS_ARCH="amd64"
-ARG HELM_VERSION="3.13.2"
+ARG OS_ARCH2="x86_64"
 ARG TANZU=10.109.195.161
 ARG USER=vlabs
 ARG USER_ID=1280
@@ -24,7 +24,7 @@ ARG GROUP_ID=100
 # update repositories, install packages, and then clean up
 RUN tdnf update -y && \
     # grab what we can via standard packages
-    tdnf install -y ca-certificates curl diffutils git jq ncurses shadow tar unzip && \
+    tdnf install -y bash ca-certificates coreutils curl diffutils git jq ncurses shadow tar unzip && \
     # add user/group
     useradd -u ${USER_ID} -g ${GROUP} -m ${USER} && \
     chown -R ${USER}:${GROUP} /home/${USER} && \
@@ -38,19 +38,26 @@ RUN tdnf update -y && \
     unzip -d /usr/local vsphere-plugin.zip && \
     rm -f vsphere-plugin.zip && \
     # grab helm
-    curl -skSLo helm.tar.gz https://get.helm.sh/helm-v${HELM_VERSION}-linux-${OS_ARCH}.tar.gz && \
+    HELM_VERSION=$(curl -H 'Accept: application/json' -sSL https://github.com/helm/helm/releases/latest | jq -r '.tag_name') && \
+    curl -skSLo helm.tar.gz https://get.helm.sh/helm-${HELM_VERSION}-linux-${OS_ARCH}.tar.gz && \
     tar xzf helm.tar.gz linux-${OS_ARCH}/helm && \
     mv linux-${OS_ARCH}/helm /usr/local/bin/ && \
     chmod 0755 /usr/local/bin/helm && \
     rm -rf helm.tar.gz linux-${OS_ARCH} && \
     # grab kubectx
-    curl -skSLo kubectx https://raw.githubusercontent.com/ahmetb/kubectx/master/kubectx && \
+    KUBECTX_VERSION=$(curl -H 'Accept: application/json' -sSL https://github.com/ahmetb/kubectx/releases/latest | jq -r '.tag_name') && \
+    curl -skSLo kubectx.tar.gz https://github.com/ahmetb/kubectx/releases/download/${KUBECTX_VERSION}/kubectx_${KUBECTX_VERSION}_linux_${OS_ARCH2}.tar.gz && \
+    tar xzf kubectx.tar.gz kubectx && \    
     mv kubectx /usr/local/bin && \
     chmod 0755 /usr/local/bin/kubectx && \
+    rm -rf kubectx.tar.gz && \
     # grab kubens
-    curl -skSLo kubens https://raw.githubusercontent.com/ahmetb/kubectx/master/kubens && \
+    KUBENS_VERSION=$(curl -H 'Accept: application/json' -sSL https://github.com/ahmetb/kubectx/releases/latest | jq -r '.tag_name') && \
+    curl -skSLo kubens.tar.gz https://github.com/ahmetb/kubectx/releases/download/${KUBENS_VERSION}/kubens_${KUBENS_VERSION}_linux_${OS_ARCH2}.tar.gz && \
+    tar xzf kubens.tar.gz kubens && \    
     mv kubens /usr/local/bin && \
     chmod 0755 /usr/local/bin/kubens && \
+    rm -rf kubens.tar.gz && \
     # clean up
     tdnf erase -y unzip shadow && \
     tdnf clean all
