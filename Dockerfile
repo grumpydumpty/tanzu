@@ -5,7 +5,7 @@ ARG OS_ARCH="amd64"
 ARG OS_ARCH2="x86_64"
 ARG TANZU=10.109.195.161
 ARG USER=vlabs
-ARG USER_ID=1280
+ARG USER_ID=1000
 ARG GROUP=users
 ARG GROUP_ID=100
 #ARG LABEL_PREFIX=com.vmware.eocto
@@ -27,7 +27,8 @@ RUN tdnf update -y && \
     tdnf install -y bash ca-certificates coreutils curl diffutils git jq ncurses shadow tar unzip && \
     # add user/group
     # groupadd -g ${GROUP_ID} ${GROUP} && \
-    useradd -u ${USER_ID} -g ${GROUP} -m ${USER} && \
+    # useradd -u ${USER_ID} -g ${GROUP} -m ${USER} && \
+    useradd -g ${GROUP} -m ${USER} && \
     chown -R ${USER}:${GROUP} /home/${USER} && \
     # add /workspace and give user permissions
     mkdir -p /workspace && \
