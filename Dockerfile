@@ -26,6 +26,7 @@ RUN tdnf update -y && \
     # grab what we can via standard packages
     tdnf install -y bash ca-certificates coreutils curl diffutils git jq ncurses shadow tar unzip && \
     # add user/group
+    # groupadd -g ${GROUP_ID} ${GROUP} && \
     useradd -u ${USER_ID} -g ${GROUP} -m ${USER} && \
     chown -R ${USER}:${GROUP} /home/${USER} && \
     # add /workspace and give user permissions
