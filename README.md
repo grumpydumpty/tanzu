@@ -1,5 +1,7 @@
 # Container Image for VMware tanzu on PowerShell Core
 
+![](logo.png)
+
 ## Overview
 
 Provides a container image for running VMware vSphere with Tanzu command line utilities.
