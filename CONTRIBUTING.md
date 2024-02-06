@@ -53,7 +53,7 @@ This is a rough outline of what a contributor's workflow looks like:
 Example:
 
 ``` shell
-git remote add upstream https://github.com/rainpole/packer-vsphere.git
+git remote add upstream https://github.com/tenthirtyam/container-terraform.git
 git checkout -b my-new-feature main
 git commit -s -a
 git push origin my-new-feature
@@ -61,7 +61,7 @@ git push origin my-new-feature
 
 ### Staying In Sync With Upstream
 
-When your branch gets out of sync with the rainpole/main branch, use the following to update:
+When your branch gets out of sync with the tenthirtyam/main branch, use the following to update:
 
 ``` shell
 git checkout my-new-feature
@@ -106,12 +106,8 @@ See [GFM syntax](https://guides.github.com/features/mastering-markdown/#GitHub-f
 
 When opening a new issue, try to roughly follow the commit message format conventions above.
 
-## Finding Contributions to Work On
-
-Looking at the existing issues is a great way to find something to contribute on. If you have an idea you'd like to discuss, [open a discussion](https://github.com/rainpole/packer-vsphere/discussions).
-
 ## Licensing
 
-See the [LICENSE](LICENSE) file for our project's licensing. We will ask you to confirm the licensing of your contribution.
+See the `LICENSE` file for our project's licensing. We will ask you to confirm the licensing of your contribution.
 
 We may ask you to sign a [Contributor License Agreement (CLA)](http://en.wikipedia.org/wiki/Contributor_License_Agreement) for larger changes.
