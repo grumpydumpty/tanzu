@@ -1,7 +1,7 @@
 # Project Information
 site_name: Tanzu
 site_description: Docker container with all the tools you need to work with VMware Tanzu.
-site_url: http://tanzu.lab.net
+site_url: http://containers.lab.net/tanzu
 site_author: Broadcom
 docs_dir: docs
 site_dir: .site
