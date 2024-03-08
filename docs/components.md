@@ -1,14 +1,14 @@
-# Components
+---
+title: Components
+draft: false
+date: 2022-01-31
+authors:
+  - grumpydumpty
+---
 
 This image includes the following components:
 
-| Component              | Version | Description                                                                 |
-|------------------------|---------|-----------------------------------------------------------------------------|
-| VMware Photon OS       | 5.0     | A Linux container host optimized for vSphere and cloud-computing platforms. |
-| kubectl                | x.y.z   |                                                                             |
-| kubectl vsphere plugin | x.y.z   |                                                                             |
-| kubectx / kubens       | x.y.z   |                                                                             |
-| helm                   | 3.11.2  | Package manager for Kubernetes                                              |
+<!-- DO NOT EDIT BELOW THIS LINE -->
 
 | Package/Tool                         | Version  |
 |--------------------------------------|----------|
