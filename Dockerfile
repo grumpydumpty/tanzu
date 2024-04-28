@@ -34,27 +34,27 @@ RUN tdnf update -y && \
     mkdir -p /workspace && \
     chown -R ${USER_ID}:${GROUP_ID} /workspace && \
     # set git config
-    echo -e "[safe]\n\tdirectory=/workspace" > /etc/gitconfig && \
+    git config --system --add safe.directory "/workspace" && \
     # grab kubectl vsphere plugins
     curl -skSLo vsphere-plugin.zip https://${TANZU}/wcp/plugin/linux-${OS_ARCH}/vsphere-plugin.zip && \
     unzip -d /usr/local vsphere-plugin.zip && \
     rm -f vsphere-plugin.zip && \
     # grab helm
-    HELM_VERSION=$(curl -H 'Accept: application/json' -sSL https://github.com/helm/helm/releases/latest | jq -r '.tag_name') && \
+    export HELM_VERSION=$(curl -H 'Accept: application/json' -sSL https://github.com/helm/helm/releases/latest | jq -r '.tag_name') && \
     curl -skSLo helm.tar.gz https://get.helm.sh/helm-${HELM_VERSION}-linux-${OS_ARCH}.tar.gz && \
     tar xzf helm.tar.gz linux-${OS_ARCH}/helm && \
     mv linux-${OS_ARCH}/helm /usr/local/bin/ && \
     chmod 0755 /usr/local/bin/helm && \
     rm -rf helm.tar.gz linux-${OS_ARCH} && \
     # grab kubectx
-    KUBECTX_VERSION=$(curl -H 'Accept: application/json' -sSL https://github.com/ahmetb/kubectx/releases/latest | jq -r '.tag_name') && \
+    export KUBECTX_VERSION=$(curl -H 'Accept: application/json' -sSL https://github.com/ahmetb/kubectx/releases/latest | jq -r '.tag_name') && \
     curl -skSLo kubectx.tar.gz https://github.com/ahmetb/kubectx/releases/download/${KUBECTX_VERSION}/kubectx_${KUBECTX_VERSION}_linux_${OS_ARCH2}.tar.gz && \
     tar xzf kubectx.tar.gz kubectx && \    
     mv kubectx /usr/local/bin && \
     chmod 0755 /usr/local/bin/kubectx && \
     rm -rf kubectx.tar.gz && \
     # grab kubens
-    KUBENS_VERSION=$(curl -H 'Accept: application/json' -sSL https://github.com/ahmetb/kubectx/releases/latest | jq -r '.tag_name') && \
+    export KUBENS_VERSION=$(curl -H 'Accept: application/json' -sSL https://github.com/ahmetb/kubectx/releases/latest | jq -r '.tag_name') && \
     curl -skSLo kubens.tar.gz https://github.com/ahmetb/kubectx/releases/download/${KUBENS_VERSION}/kubens_${KUBENS_VERSION}_linux_${OS_ARCH2}.tar.gz && \
     tar xzf kubens.tar.gz kubens && \    
     mv kubens /usr/local/bin && \
