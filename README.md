@@ -102,3 +102,8 @@ _Originally based off:_
 ## Package Versions
 
 <!-- snip -->
+| Package | Version |
+|---------|---------|
+| HELM | v3.14.4 |
+| KUBECTX | v0.9.5 |
+| KUBENS | v0.9.5 |
