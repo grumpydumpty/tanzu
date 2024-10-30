@@ -23,8 +23,8 @@ PROJECT="grumpdumpty/$IMAGE"
 
 # maintainer info
 MAIN_USER="Richard Croft"
-MAIN_EMAIL="rcroft@vmware.com"
-MAIN_URL="https://github.com/grumpdumpty"
+MAIN_EMAIL="rcroft@omnissa.com"
+MAIN_URL="https://github.com/grumpydumpty"
 
 # below needs to match "ARG LABEL_PREFIX=" in Dockerfile
 LABEL_PREFIX=net.lab
@@ -37,4 +37,5 @@ WORKDIR="/workspace"
 
 # repository to push image to
 # REPO=harbor.sydeng.vmware.com/rcroft
-REPO=ghcr.io/grumpydumpty/${IMAGE}
+#REPO=ghcr.io/grumpydumpty/${IMAGE}
+REPO=artifactory.build.omnissa.com/uem-platform-eng-docker
