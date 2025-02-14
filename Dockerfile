@@ -1,56 +1,24 @@
-FROM photon:5.0
+FROM base:dev
 
 # set argument defaults
 ARG OS_ARCH="amd64"
 ARG OS_ARCH2="x86_64"
-ARG TANZU=10.109.195.161
-ARG USER=vlabs
-ARG USER_ID=1000
-ARG GROUP=users
-ARG GROUP_ID=100
-#ARG LABEL_PREFIX=net.lab
+ARG VCENTER=10.109.195.161
 
-# # add metadata via labels
-# LABEL ${LABEL_PREFIX}.version="0.0.1"
-# LABEL ${LABEL_PREFIX}.git.repo="git@github.com:grumpdumpty/tanzu.git"
-# LABEL ${LABEL_PREFIX}.git.commit="DEADBEEF"
-# LABEL ${LABEL_PREFIX}.maintainer.name="Richard Croft"
-# LABEL ${LABEL_PREFIX}.maintainer.email="rcroft@vmware.com"
-# LABEL ${LABEL_PREFIX}.maintainer.url="https://github.com/grumpdumpty"
-# LABEL ${LABEL_PREFIX}.released="9999-99-99"
-# LABEL ${LABEL_PREFIX}.based-on="photon:5.0"
-# LABEL ${LABEL_PREFIX}.project="tanzu"
+# Switch to root to install OS packages
+USER root:root
 
 # update repositories, install packages, and then clean up
 RUN tdnf update -y && \
     # grab what we can via standard packages
-    tdnf install -y \
-        bash \
-        ca-certificates \
-        coreutils \
-        curl \
-        diffutils \
-        git \
-        jq \
-        ncurses \
-        shadow \
-        tar \
-        unzip \
-        vim && \
-    # add user/group
-    # groupadd -g ${GROUP_ID} ${GROUP} && \
-    # useradd -u ${USER_ID} -g ${GROUP} -m ${USER} && \
-    useradd -g ${GROUP} -m ${USER} && \
-    chown -R ${USER}:${GROUP} /home/${USER} && \
-    # add /workspace and give user permissions
-    mkdir -p /workspace && \
-    chown -R ${USER_ID}:${GROUP_ID} /workspace && \
-    # set git config
-    git config --system --add init.defaultBranch "main" && \
-    git config --system --add safe.directory "/workspace"
+    # tdnf install -y \
+    #     package-1 \
+    #     package-2 && \
+    # clean up
+    tdnf clean all
 
 # # grab kubectl vsphere plugins
-# RUN curl -skSLo vsphere-plugin.zip https://${TANZU}/wcp/plugin/linux-${OS_ARCH}/vsphere-plugin.zip && \
+# RUN curl -skSLo vsphere-plugin.zip https://${VCENTER}/wcp/plugin/linux-${OS_ARCH}/vsphere-plugin.zip && \
 #     unzip -d /usr/local vsphere-plugin.zip && \
 #     chown root:root /usr/local/bin/kubectl-vsphere && \
 #     chmod 0755 /usr/local/bin/kubectl-vsphere && \
@@ -99,25 +67,15 @@ RUN K9S_VERSION=$(curl -H 'Accept: application/json' -sSL https://github.com/der
     chmod 0755 /usr/local/bin/k9s && \
     rm -f k9s.tar.gz
 
-# harden and remove unecessary packages
+# harden and remove unnecessary packages
 RUN chown -R root:root /usr/local/bin/ && \
     chown root:root /var/log && \
     chmod 0640 /var/log && \
     chown root:root /usr/lib/ && \
     chmod 755 /usr/lib/
 
-# clean up
-RUN tdnf erase -y unzip shadow && \
-    tdnf clean all
-
-# set user
+# switch back to non-root user
 USER ${USER}
-
-# set working directory
-WORKDIR /workspace
-
-# set entrypoint to a shell
-CMD [ "bash" ]
 
 #############################################################################
 # vim: ft=unix sync=dockerfile ts=4 sw=4 et tw=78:
