@@ -69,13 +69,6 @@ RUN K9S_VERSION=$(curl -H 'Accept: application/json' -sSL https://github.com/der
     chmod 0755 /usr/local/bin/k9s && \
     rm -f k9s.tar.gz
 
-# harden and remove unnecessary packages
-RUN chown -R root:root /usr/local/bin/ && \
-    chown root:root /var/log && \
-    chmod 0640 /var/log && \
-    chown root:root /usr/lib/ && \
-    chmod 755 /usr/lib/
-
 # switch back to non-root user
 USER ${USER}:${GROUP}
 
